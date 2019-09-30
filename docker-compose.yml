@@ -1,0 +1,12 @@
+---
+
+version: "3.7"
+
+services:
+  app:
+    working_dir: /app
+    build: .
+    volumes:
+      - ./:/app
+    env_file:
+      - ./.env
