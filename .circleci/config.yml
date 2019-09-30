@@ -28,6 +28,7 @@ jobs:
       - hello_command
 
 workflows:
+  version: 2.1
   build:
     jobs:
       - hello_job
@@ -35,7 +36,7 @@ workflows:
     triggers:
       -
         schedule:
-          cron: "5 * * * *" # UTCで記述。-9
+          cron: "5 * * * *"
     jobs:
       - hello_job
       - hello_job
