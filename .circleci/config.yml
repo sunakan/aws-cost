@@ -14,7 +14,8 @@ commands:
   hello_command:
     description: "Hello command"
     steps:
-      - run:
+      -
+        run:
           name: "hello step 1"
           command: |
             echo "HELLO WORLD"
@@ -29,4 +30,14 @@ jobs:
 workflows:
   build:
     jobs:
+      - hello_job
+  schedule_workflow:
+    triggers:
+      -
+        schedule:
+          cron: "5 * * * *" # UTCで記述。-9
+    jobs:
+      - hello_job
+      - hello_job
+      - hello_job
       - hello_job
