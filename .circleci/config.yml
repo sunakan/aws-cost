@@ -37,6 +37,10 @@ workflows:
       -
         schedule:
           cron: "5 * * * *"
+          filters:
+            branches:
+              only:
+                - master
     jobs:
       - hello_job
       - hello_job
