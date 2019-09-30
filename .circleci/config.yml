@@ -1,0 +1,22 @@
+---
+version: 2.1
+
+commands:
+  hello_command:
+    description: "Hello command"
+    steps:
+      - run:
+          name: "hello step 1"
+          command: |
+            echo "HELLO WORLD"
+
+jobs:
+  hello_job:
+    steps:
+      - checkout
+      - hello_command
+
+workflows:
+  build:
+    jobs:
+      - hello_job
