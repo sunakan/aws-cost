@@ -1,6 +1,15 @@
 ---
 version: 2.1
 
+executors:
+  ruby:
+    parameters:
+      tag:
+        type: string
+        default: "latest"
+    docker:
+      - image: circleci/ruby:<< parameters.tag >>
+
 commands:
   hello_command:
     description: "Hello command"
@@ -12,6 +21,7 @@ commands:
 
 jobs:
   hello_job:
+    executor: ruby
     steps:
       - checkout
       - hello_command
