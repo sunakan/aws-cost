@@ -66,4 +66,4 @@ workflows:
               only:
                 - master
     jobs:
-      - hello_job
+      - slack_awscost
