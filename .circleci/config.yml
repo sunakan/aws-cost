@@ -1,4 +1,7 @@
 ---
+orbs:
+  slack: circleci/slack@3.3.0
+
 version: 2.1
 
 executors:
@@ -19,19 +22,31 @@ commands:
           name: "hello step 1"
           command: |
             echo "HELLO WORLD"
+  slack_test:
+    description: "Slack test"
+    steps:
+      -
+        slack/notify:
+          color: success
+          message: テスト
 
 jobs:
   hello_job:
     executor: ruby
     steps:
-      - checkout
       - hello_command
+  slack_test:
+    executor: ruby
+    steps:
+      - checkout
+      - slack_test
 
 workflows:
   version: 2.1
   build:
     jobs:
       - hello_job
+      - slack_test
   schedule_workflow:
     triggers:
       -
@@ -42,7 +57,4 @@ workflows:
               only:
                 - master
     jobs:
-      - hello_job
-      - hello_job
-      - hello_job
       - hello_job
