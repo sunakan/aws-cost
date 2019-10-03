@@ -30,6 +30,10 @@ commands:
     description: "AWSのコストをSlackへ通知"
     steps:
       -
+        run:
+          name: "bundle install"
+          command: bundle install
+      -
         slack/notify:
           color: success
           message: "`ruby aws.rb`"
