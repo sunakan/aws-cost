@@ -1,0 +1,114 @@
+= AWSのCostExplorerを毎日Slackに飛ばしたい
+
+== 結果
+
+image::https://user-images.githubusercontent.com/43210698/66123523-3b02f380-e61d-11e9-8659-9de5eb623d77.png[img]
+
+== 準備
+
+=== AWSのCostを取るためだけのIAMユーザの用意
+
+* マネジメントコンソールにはログインできない
+* ポリシーはCostExplorerの取得（全リソース）
+
+=== AWSのCostを取るためだけのグループを作成
+
+* IAMユーザに直接アタッチはしない
+* 以下のポリシーを作成後、グループにアタッチ
+* このグループに上記のIAMユーザをアタッチ
+
+=== IAMポリシー
+
+----
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0", "Effect": "Allow",
+            "Action": [
+                "ce:GetCostAndUsage"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+----
+
+== 運用
+
+=== 本番に向けての用意
+
+* CircleCIアカウント
+* SlackのINCOMING_WEBHOOK_URL
+
+=== 本番
+
+* CircleCIを利用（Lambdaとかではやらない）
+* CircleCIにアクセスキーとシークレットキーを登録
+** リポジトリを登録（ADD PROJECTS）
+** 環境変数の登録
+*** AWS_ACCESS_KEY_ID
+*** AWS_SECRET_ACCESS_KEY
+*** SLACK_WEBHOOK_URL
+
+=== 考えるリスク
+
+* AWSのアクセスキーを漏洩してしまった時
+** AWSのサービスで何をどれくらい使ってるかバレる
+** 1回API叩くと `$0.01` 掛かるため多額の請求が来る可能性あり
+
+* Slackの `Incoming Webhook` アプリ用URLを漏洩してしまった時
+** チャンネルに良からぬものを流される
+
+=== 漏洩に気づいた時の対応
+
+* アクセスキーの無効化＆再生成
+* SlackのWebhoo URLの再生成
+
+== localでのテスト方法
+
+----
+$ git clone これ
+$ cp ./env.sample ./env
+$ vim ./.env
+$ make bash
+# コンテナ内
+$ ruby aws.rb
+----
+
+== 実行結果例(2019年9月30日に実行)
+
+* 利用したサービスのみ
+* 無料枠の範囲は `$0.0`
+
+----
+$ ruby aws.rb
+====[ 2019年08月 ]
+AmazonCloudWatch                        $ 0.0
+Amazon Simple Storage Service           $ 0.0
+合計                                    $ 0.0
+====[ 2019年09月 ]
+AmazonCloudWatch                        $ 0.0
+Tax                                     $ 0.03
+AWS Key Management Service              $ 0.0
+Amazon Elasticsearch Service            $ 0.0
+AWS Cost Explorer                       $ 0.13
+EC2 - Other                             $ 0.186
+Amazon Elastic Compute Cloud - Compute  $ 0.0
+合計                                    $ 0.346
+
+2019年09月27日
+AmazonCloudWatch                        $ 0.0
+合計                                    $ 0.0
+
+2019年09月28日
+AmazonCloudWatch                        $ 0.0
+合計                                    $ 0.0
+
+2019年09月29日
+AWS Cost Explorer                       $ 0.13
+EC2 - Other                             $ 0.186
+Amazon Elastic Compute Cloud - Compute  $ 0.0
+AmazonCloudWatch                        $ 0.0
+合計                                    $ 0.316
+----
