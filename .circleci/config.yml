@@ -25,10 +25,13 @@ commands:
   slack_test:
     description: "Slack test"
     steps:
+      - run:
+        name: "変数に代入してみる"
+        command: MESSAGE=`echo "HELLO"`
       -
         slack/notify:
           color: success
-          message: テスト
+          message: ${MESSAGE}
 
 jobs:
   hello_job:
