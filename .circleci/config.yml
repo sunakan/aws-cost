@@ -26,13 +26,9 @@ commands:
     description: "Slack test"
     steps:
       -
-        run:
-          name: "変数に代入してみる"
-          command: MESSAGE=`echo "HELLO"`
-      -
         slack/notify:
           color: success
-          message: ${MESSAGE}
+          message: `ruby -e "puts hello"`
 
 jobs:
   hello_job:
