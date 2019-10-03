@@ -19,34 +19,39 @@ commands:
     steps:
       -
         run:
-          name: "hello step 1"
+          name: "ls test"
+          command: ls -a
+      -
+        run:
+          name: "hello step"
           command: |
             echo "HELLO WORLD"
-  slack_test:
-    description: "Slack test"
+  slack_awscost:
+    description: "AWSのコストをSlackへ通知"
     steps:
       -
         slack/notify:
           color: success
-          message: "`ruby -e \"puts 'hello'\"`"
+          message: "`ruby aws-cost.rb`"
 
 jobs:
   hello_job:
     executor: ruby
     steps:
+      - checkout
       - hello_command
-  slack_test:
+  slack_awscost:
     executor: ruby
     steps:
       - checkout
-      - slack_test
+      - slack_awscost
 
 workflows:
   version: 2.1
   build:
     jobs:
       - hello_job
-      - slack_test
+      - slack_awscost
   schedule_workflow:
     triggers:
       -
