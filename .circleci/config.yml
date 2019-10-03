@@ -28,7 +28,7 @@ commands:
       -
         slack/notify:
           color: success
-          message: `ruby -e "puts hello"`
+          message: "`ruby -e \"puts 'hello'\"`"
 
 jobs:
   hello_job:
