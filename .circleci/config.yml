@@ -30,6 +30,26 @@ commands:
     description: "AWSのコストをSlackへ通知"
     steps:
       -
+        run:
+          name: "もう一度変数に代入"
+          command: export MY_ENV="testtesttest"
+      -
+        run:
+          name: "もう一度変数に代入"
+          command: hoge="testtesttest"
+      -
+        slack/notify:
+          color: success
+          message: ${hoge}
+      -
+        slack/notify:
+          color: success
+          message: ${MY_ENV}
+      -
+        slack/notify:
+          color: success
+          message: "`ls -a ./`, `pwd`"
+      -
         slack/notify:
           color: success
           message: "`ruby aws-cost.rb`"
@@ -50,8 +70,8 @@ workflows:
   version: 2.1
   build:
     jobs:
-      - hello_job
       - slack_awscost
+#      - hello_job
   schedule_workflow:
     triggers:
       -
