@@ -2,7 +2,7 @@
 
 == 結果
 
-image::https://user-images.githubusercontent.com/43210698/66123523-3b02f380-e61d-11e9-8659-9de5eb623d77.png[img]
+image::https://user-images.githubusercontent.com/43210698/66123523-3b02f380-e61d-11e9-8659-9de5eb623d77.png[width="400"]
 
 == 準備
 
