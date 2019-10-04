@@ -219,3 +219,4 @@ $RECYCLE.BIN/
 # End of https://www.gitignore.io/api/vim,ruby,macos,windows,rubymine+all
 
 .env
+.circleci/config-2.0.yml
