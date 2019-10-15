@@ -11,3 +11,5 @@ jobs:
       - run: echo "Hello, World!"
       - run: echo "Hello, World!"
       - run: echo ${{ secrets.GITHUB_TOKEN }}
+      - run: echo ${{ secrets.MY_HIMITSU }}
+      - run: echo ${{ secrets.MY_HIMITSU_TOKANAI }}
